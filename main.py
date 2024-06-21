@@ -1,7 +1,10 @@
-import yaml
+from flask import Flask, render_template
 
-data = open("main.yaml", "r")
-data = yaml.load(data, Loader=yaml.FullLoader)
+app = Flask(__name__, static_folder='static')
 
-for key, value in data.item():
-    print(f"{key = } {value = }")
+@app.route('/')
+def main():
+    return render_template("main.html")
+
+if __name__ == '__main__':
+    app.run(debug=True, port=8080)

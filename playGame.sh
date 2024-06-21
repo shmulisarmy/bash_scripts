@@ -19,7 +19,7 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 
 colors=($RED $GREEN $YELLOW $BLUE $PURPLE $CYAN)
-games=("doodle_jump" "tetris" "othello")
+games=("snake_game" "doodle_jump" "tetris" "othello" "astroids" "maps" "falling-sand" "neuron-simulation")
 
 clear
 
@@ -34,5 +34,5 @@ cd "/users/shmuli/repositories/${games[$input - 1]}"
 
 python3 main.py
 
-exit 0
 
+exit 0

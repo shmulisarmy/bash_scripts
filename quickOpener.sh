@@ -20,13 +20,8 @@ for ((i = 0; i < ${#websites[@]}; i++)); do
     echo "${color}$((i + 1))${NC} to open ${color}${websites[i]}${NC} in browser"
 done
 
-
 read -p "Enter your choice: " input
 
-
 open "http://${websites[$input - 1]}.com"
-
-echo -- 
-
 
 exit 0

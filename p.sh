@@ -5,5 +5,5 @@ if [ "$#" -gt 0 ]; then
         python3 "${!i}.py" $1 $2
     done
 else 
-    python3 main.py $1 $2
+    python3 __main__.py $1 $2
 fi

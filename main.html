@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stripe Payment</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <h2>Pay with Stripe</h2>
+    <form id="payment-form">
+        <div id="card-element"></div>
+        <button id="submit">Submit Payment</button>
+    </form>
+
+    <script>
+        const stripe = Stripe('{{ publishable_key }}');
+        const elements = stripe.elements();
+
+        // Create an instance of the card Element
+        const cardElement = elements.create('card');
+
+        // Add the card Element to the form
+        cardElement.mount('#card-element');
+
+        // Handle form submission
+        const form = document.getElementById('payment-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const { paymentMethod, error } = await stripe.createPaymentMethod({
+                type: 'card',
+                card: cardElement,
+            });
+
+            if (error) {
+                // Handle error
+                console.error(error);
+            } else {
+                // Submit the PaymentMethod ID to the server for processing
+                const paymentData = {
+                    payment_method_id: paymentMethod.id
+                };
+
+                fetch('/pay', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(paymentData),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Payment succeeded
+                        alert('Payment successful!');
+                    } else {
+                        // Payment failed
+                        alert('Payment failed: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
